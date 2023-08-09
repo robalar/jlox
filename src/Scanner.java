@@ -50,21 +50,21 @@ public class Scanner {
     private void scanToken() {
         char c = advance();
         switch (c) {
-            case '(': addToken(TokenType.LEFT_PAREN); break;
-            case ')': addToken(TokenType.RIGHT_PAREN); break;
-            case '{': addToken(TokenType.LEFT_BRACE); break;
-            case '}': addToken(TokenType.RIGHT_BRACE); break;
-            case ',': addToken(TokenType.COMMA); break;
-            case '.': addToken(TokenType.DOT); break;
-            case '-': addToken(TokenType.MINUS); break;
-            case '+': addToken(TokenType.PLUS);
-            case ';': addToken(TokenType.SEMICOLON); break;
-            case '*': addToken(TokenType.STAR); break;
-            case '!': addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG); break;
-            case '=': addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL); break;
-            case '<': addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS); break;
-            case '>': addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER); break;
-            case '/':
+            case '(' -> addToken(TokenType.LEFT_PAREN);
+            case ')' -> addToken(TokenType.RIGHT_PAREN);
+            case '{' -> addToken(TokenType.LEFT_BRACE);
+            case '}' -> addToken(TokenType.RIGHT_BRACE);
+            case ',' -> addToken(TokenType.COMMA);
+            case '.' -> addToken(TokenType.DOT);
+            case '-' -> addToken(TokenType.MINUS);
+            case '+' -> addToken(TokenType.PLUS);
+            case ';' -> addToken(TokenType.SEMICOLON);
+            case '*' -> addToken(TokenType.STAR);
+            case '!' -> addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
+            case '=' -> addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
+            case '<' -> addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
+            case '>' -> addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+            case '/' -> {
                 if (match('/')) {
                     while (peek() != '\n' && !isAtEnd()) advance();
                 } else if (match('*')) {
@@ -81,16 +81,13 @@ public class Scanner {
                 } else {
                     addToken(TokenType.SLASH);
                 }
-
-                break;
-            case ' ':
-            case '\r':
-            case '\t':
-                // ignore whitespace
-                break;
-            case '\n': line++; break;
-            case '"': string(); break;
-            default:
+            }
+            case ' ', '\r', '\t' -> {
+            }
+            // ignore whitespace
+            case '\n' -> line++;
+            case '"' -> string();
+            default -> {
                 if (isDigit(c)) {
                     number();
                 } else if (isAlpha(c)) {
@@ -98,7 +95,7 @@ public class Scanner {
                 } else {
                     Lox.error(line, "Unexpected character.");
                 }
-                break;
+            }
         }
     }
 
