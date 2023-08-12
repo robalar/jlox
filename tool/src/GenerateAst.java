@@ -12,10 +12,18 @@ public class GenerateAst {
         }
         String outputDir = args[0];
         defineAst(outputDir, "Expr", Arrays.asList(
+                "Assign: Token name, Expr value",
                 "Binary: Expr left, Token operator, Expr right",
                 "Grouping: Expr expression",
                 "Literal: Object value",
+                "Variable: Token name",
                 "Unary: Token operator, Expr right"
+        ));
+        defineAst(outputDir, "Stmt", Arrays.asList(
+                "Block: List<Stmt> statements",
+                "Expression: Expr expression",
+                "Var: Token name, Expr initializer",
+                "Print: Expr expression"
         ));
 
     }
@@ -38,7 +46,7 @@ public class GenerateAst {
         }
 
         writer.println();
-        writer.println("  abstract <R> R accept(Visitor<R> visitor);");
+        writer.println("  abstract <R> R accept(Visitor<R> visitor) throws RuntimeError;");
 
         writer.println("}");
         writer.close();
@@ -48,7 +56,7 @@ public class GenerateAst {
         writer.println("    interface Visitor<R> {");
         for (String type : types) {
             String typeName = type.split(":")[0].trim();
-            writer.println("         R visit" + typeName + baseName + "(" + typeName + " " + baseName.toLowerCase() + ");");
+            writer.println("         R visit" + typeName + baseName + "(" + typeName + " " + baseName.toLowerCase() + ") throws RuntimeError;");
         }
         writer.println("     }");
     }
@@ -70,7 +78,7 @@ public class GenerateAst {
         // Visitor pattern
         writer.println();
         writer.println("        @Override");
-        writer.println("        <R> R accept(Visitor<R> visitor) {");
+        writer.println("        <R> R accept(Visitor<R> visitor) throws RuntimeError {");
         writer.println("            return visitor.visit" + className + baseName + "(this);");
         writer.println("        }");
 

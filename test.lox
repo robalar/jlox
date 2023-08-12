@@ -1,5 +1,18 @@
 /*
 This is a multi-line comment
 */
-+-! ()
-for and class
+var a = "global";
+var b = "global b";
+print a;
+{
+    var a = "local";
+    print a;
+    {
+        var a = "inner";
+        print a;
+        b = "set from inner";
+    }
+    print a;
+}
+print a;
+print b;
