@@ -165,6 +165,16 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         return null;
     }
 
+    @Override
+    public Void visitIfStmt(Stmt.If stmt) throws RuntimeError {
+        if(isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.thenBranch);
+        } else if (stmt.elseBranch != null) {
+            execute(stmt.elseBranch);
+        }
+        return null;
+    }
+
     private void executeBlock(List<Stmt> statements, Environment environment) throws RuntimeError {
         Environment previous = this.environment;
         try {
