@@ -5,6 +5,8 @@ abstract class Stmt {
          R visitBlockStmt(Block stmt) throws RuntimeError;
          R visitIfStmt(If stmt) throws RuntimeError;
          R visitExpressionStmt(Expression stmt) throws RuntimeError;
+         R visitFunctionStmt(Function stmt) throws RuntimeError;
+         R visitReturnStmt(Return stmt) throws RuntimeError;
          R visitVarStmt(Var stmt) throws RuntimeError;
          R visitPrintStmt(Print stmt) throws RuntimeError;
          R visitWhileStmt(While stmt) throws RuntimeError;
@@ -48,6 +50,36 @@ abstract class Stmt {
         }
 
         final Expr expression;
+    }
+    static class Function extends Stmt {
+         Function(Token name, List<Token> params, List<Stmt> body) {
+            this.name = name;
+            this.params = params;
+            this.body = body;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitFunctionStmt(this);
+        }
+
+        final Token name;
+        final List<Token> params;
+        final List<Stmt> body;
+    }
+    static class Return extends Stmt {
+         Return(Token keyword, Expr value) {
+            this.keyword = keyword;
+            this.value = value;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitReturnStmt(this);
+        }
+
+        final Token keyword;
+        final Expr value;
     }
     static class Var extends Stmt {
          Var(Token name, Expr initializer) {
