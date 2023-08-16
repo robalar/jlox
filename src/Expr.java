@@ -5,6 +5,8 @@ abstract class Expr {
          R visitAssignExpr(Assign expr) throws RuntimeError;
          R visitBinaryExpr(Binary expr) throws RuntimeError;
          R visitCallExpr(Call expr) throws RuntimeError;
+         R visitGetExpr(Get expr) throws RuntimeError;
+         R visitSetExpr(Set expr) throws RuntimeError;
          R visitGroupingExpr(Grouping expr) throws RuntimeError;
          R visitLiteralExpr(Literal expr) throws RuntimeError;
          R visitLogicalExpr(Logical expr) throws RuntimeError;
@@ -56,6 +58,36 @@ abstract class Expr {
         final Expr callee;
         final Token paren;
         final List<Expr> arguments;
+    }
+    static class Get extends Expr {
+         Get(Expr object, Token name) {
+            this.object = object;
+            this.name = name;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitGetExpr(this);
+        }
+
+        final Expr object;
+        final Token name;
+    }
+    static class Set extends Expr {
+         Set(Expr object, Token name, Expr value) {
+            this.object = object;
+            this.name = name;
+            this.value = value;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitSetExpr(this);
+        }
+
+        final Expr object;
+        final Token name;
+        final Expr value;
     }
     static class Grouping extends Expr {
          Grouping(Expr expression) {

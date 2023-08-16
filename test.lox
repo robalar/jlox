@@ -1,10 +1,9 @@
-var a = "global";
-{
-    fun showA() {
-        print a;
+class Test {
+    foo() {
+        print "Test";
     }
-
-    showA();
-    var a = "block";
-    showA();
 }
+
+var instance = Test();
+instance.bar = "bababa";
+print instance.bar;

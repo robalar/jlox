@@ -3,6 +3,7 @@ import java.util.List;
 abstract class Stmt {
     interface Visitor<R> {
          R visitBlockStmt(Block stmt) throws RuntimeError;
+         R visitClassStmt(Class stmt) throws RuntimeError;
          R visitIfStmt(If stmt) throws RuntimeError;
          R visitExpressionStmt(Expression stmt) throws RuntimeError;
          R visitFunctionStmt(Function stmt) throws RuntimeError;
@@ -22,6 +23,20 @@ abstract class Stmt {
         }
 
         final List<Stmt> statements;
+    }
+    static class Class extends Stmt {
+         Class(Token name, List<Stmt.Function> methods) {
+            this.name = name;
+            this.methods = methods;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitClassStmt(this);
+        }
+
+        final Token name;
+        final List<Stmt.Function> methods;
     }
     static class If extends Stmt {
          If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
