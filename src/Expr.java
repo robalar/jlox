@@ -7,6 +7,7 @@ abstract class Expr {
          R visitCallExpr(Call expr) throws RuntimeError;
          R visitGetExpr(Get expr) throws RuntimeError;
          R visitSetExpr(Set expr) throws RuntimeError;
+         R visitThisExpr(This expr) throws RuntimeError;
          R visitGroupingExpr(Grouping expr) throws RuntimeError;
          R visitLiteralExpr(Literal expr) throws RuntimeError;
          R visitLogicalExpr(Logical expr) throws RuntimeError;
@@ -88,6 +89,18 @@ abstract class Expr {
         final Expr object;
         final Token name;
         final Expr value;
+    }
+    static class This extends Expr {
+         This(Token keyword) {
+            this.keyword = keyword;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) throws RuntimeError {
+            return visitor.visitThisExpr(this);
+        }
+
+        final Token keyword;
     }
     static class Grouping extends Expr {
          Grouping(Expr expression) {

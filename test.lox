@@ -1,9 +1,15 @@
-class Test {
-    foo() {
-        print "Test";
+class Cake {
+    init() {
+        this.flavor = "victoria sponge";
+    }
+
+    taste() {
+        var adjective = "delicious";
+        print "This " + this.flavor + " cake is " + adjective + "!";
     }
 }
 
-var instance = Test();
-instance.bar = "bababa";
-print instance.bar;
+var cake = Cake();
+cake.taste();
+cake.flavor = "chocolate";
+cake.taste();
