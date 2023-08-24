@@ -1,4 +1,6 @@
-class Cake {
+class Desert { }
+
+class Cake < Desert {
     init() {
         this.flavor = "victoria sponge";
     }
