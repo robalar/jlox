@@ -1,22 +1,15 @@
-class Desert {
-    foo() {
-        print "foo";
+class Foo {
+    test() {
+        print "Foo test";
     }
 }
 
-class Cake < Desert {
-    init() {
-        this.flavor = "victoria sponge";
-    }
-
-    taste() {
-        var adjective = "delicious";
-        print "This " + this.flavor + " cake is " + adjective + "!";
+class Bar < Foo {
+    test() {
+        super.test();
+        print "Bar test";
     }
 }
 
-var cake = Cake();
-cake.taste();
-cake.flavor = "chocolate";
-cake.taste();
-cake.foo();
+var b = Bar();
+b.test();
