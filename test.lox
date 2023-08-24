@@ -1,4 +1,8 @@
-class Desert { }
+class Desert {
+    foo() {
+        print "foo";
+    }
+}
 
 class Cake < Desert {
     init() {
@@ -15,3 +19,4 @@ var cake = Cake();
 cake.taste();
 cake.flavor = "chocolate";
 cake.taste();
+cake.foo();
